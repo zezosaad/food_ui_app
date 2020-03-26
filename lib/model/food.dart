@@ -31,4 +31,22 @@ final List<Food> foods = [
     description: 'Traditional vegetarian dinner to experience',
     price: 30,
   ),
+  Food(
+    imageUrl: 'assets/images/image4.jpg',
+    title: 'Pizza Ckicken',
+    description: 'Traditional vegetarian dinner to experience',
+    price: 10,
+  ),
+  Food(
+    imageUrl: 'assets/images/image5.jpg',
+    title: 'Pizza Ckicken',
+    description: 'Traditional vegetarian dinner to experience',
+    price: 20,
+  ),
+  Food(
+    imageUrl: 'assets/images/image6.jpg',
+    title: 'Pizza Ckicken',
+    description: 'Traditional vegetarian dinner to experience',
+    price: 30,
+  ),
 ];

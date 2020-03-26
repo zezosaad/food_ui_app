@@ -1,6 +1,7 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:food_ui_app/model/food.dart';
+import 'package:food_ui_app/screens/food_details.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -109,36 +110,29 @@ class _HomePageState extends State<HomePage> {
                   scrollDirection: Axis.horizontal,
                   itemCount: categories.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          selectedIndex = index;
-                        });
-                      },
-                      child: Container(
-                        margin: EdgeInsets.symmetric(horizontal: 10.0),
-                        width: 150,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(40.0),
+                    return Container(
+                      margin: EdgeInsets.symmetric(horizontal: 10.0),
+                      width: 150,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(40.0),
+                          color: index == selectedIndex
+                              ? Color(0xFFFFCA60)
+                              : Colors.white,
+                          border: Border.all(
+                            color: Color(0xFFFFCA60),
+                            width: 1,
+                          )),
+                      child: Center(
+                        child: Text(
+                          categories[index],
+                          style: TextStyle(
                             color: index == selectedIndex
-                                ? Color(0xFFFFCA60)
-                                : Colors.white,
-                            border: Border.all(
-                              color: Color(0xFFFFCA60),
-                              width: 1,
-                            )),
-                        child: Center(
-                          child: Text(
-                            categories[index],
-                            style: TextStyle(
-                              color: index == selectedIndex
-                                  ? Colors.white
-                                  : Color(0xFFFFCA60),
-                              fontSize: 16.0,
-                              fontFamily: 'lato',
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: .6,
-                            ),
+                                ? Colors.white
+                                : Color(0xFFFFCA60),
+                            fontSize: 16.0,
+                            fontFamily: 'lato',
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: .6,
                           ),
                         ),
                       ),
@@ -230,99 +224,111 @@ class _HomePageState extends State<HomePage> {
                 scrollDirection: Axis.horizontal,
                 itemCount: foods.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                    margin: EdgeInsets.symmetric(horizontal: 10.0),
-                    height: MediaQuery.of(context).size.width * .6,
-                    width: MediaQuery.of(context).size.width * .55,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30.0),
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black26,
-                          offset: Offset(0.0, 4.0),
-                          blurRadius: 10.0,
-                        )
-                      ],
+                  final Food food = foods[index];
+                  return GestureDetector(
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => FoodDetails(food: food),
+                      ),
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          height: 160,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20.0),
-                            image: DecorationImage(
-                              image: AssetImage(foods[index].imageUrl),
-                              fit: BoxFit.cover,
+                    child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 10.0),
+                      height: MediaQuery.of(context).size.width * .6,
+                      width: MediaQuery.of(context).size.width * .55,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30.0),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black26,
+                            offset: Offset(0.0, 4.0),
+                            blurRadius: 10.0,
+                          )
+                        ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Hero(
+                            tag: food.imageUrl,
+                            child: Container(
+                              height: 160,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20.0),
+                                image: DecorationImage(
+                                  image: AssetImage(foods[index].imageUrl),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Text(
-                          foods[index].title,
-                          style: TextStyle(
-                            fontFamily: 'lato',
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFF444444),
+                          SizedBox(
+                            height: 15,
                           ),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 30),
-                          child: Text(
-                            foods[index].description,
-                            textAlign: TextAlign.center,
+                          Text(
+                            foods[index].title,
                             style: TextStyle(
-                              fontSize: 13.0,
-                              color: Color(0x99707070),
+                              fontFamily: 'lato',
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF444444),
                             ),
                           ),
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Text(
-                          '1 Person per plate',
-                          style: TextStyle(
-                            color: Color(0xFF404040),
-                            fontSize: 16.0,
+                          SizedBox(
+                            height: 5,
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 20, top: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                'Just',
-                                style: TextStyle(
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xFFFFCA60),
-                                ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 30),
+                            child: Text(
+                              foods[index].description,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 13.0,
+                                color: Color(0x99707070),
                               ),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              Text(
-                                '\$${foods[index].price}',
-                                style: TextStyle(
-                                  color: Color(0xFFFFAC60),
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
-                        )
-                      ],
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Text(
+                            '1 Person per plate',
+                            style: TextStyle(
+                              color: Color(0xFF404040),
+                              fontSize: 16.0,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 20, top: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text(
+                                  'Just',
+                                  style: TextStyle(
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xFFFFCA60),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  '\$${foods[index].price}',
+                                  style: TextStyle(
+                                    color: Color(0xFFFFAC60),
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   );
                 },
